@@ -1,0 +1,55 @@
+---
+const pathname = Astro.url.pathname;
+const nav = [
+  { href: '/', label: '首页', match: pathname === '/' },
+  { href: '/projects/', label: '项目', match: pathname.startsWith('/projects') },
+  { href: '/writing/', label: '文章', match: pathname.startsWith('/writing') },
+  { href: '/about/', label: '关于', match: pathname.startsWith('/about') },
+];
+---
+
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href="/" aria-label="迟迟的个人主页">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+      <span class="brand-copy"><strong>迟迟</strong><small>AI APPLICATION ENGINEER</small></span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="主导航">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={item.match ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="header-actions">
+      <a class="icon-button search-trigger" href="/writing/#search" aria-label="搜索文章">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+      </a>
+      <button class="icon-button theme-toggle" type="button" aria-label="切换明暗主题">
+        <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5a8.5 8.5 0 1 0 12 12Z"></path></svg>
+      </button>
+      <details class="mobile-menu">
+        <summary class="icon-button" aria-label="打开导航"><span></span><span></span></summary>
+        <nav aria-label="移动端导航">
+          {nav.map((item, index) => (
+            <a href={item.href} aria-current={item.match ? 'page' : undefined}>
+              <span>0{index + 1}</span>{item.label}
+            </a>
+          ))}
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  toggle?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('theme', next);
+  });
+</script>

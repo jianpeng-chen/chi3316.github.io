@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://chi3316.github.io/sitemap-index.xml

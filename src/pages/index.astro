@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 4);
+const date = (value: Date) => new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(value).replaceAll('/', '.');
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="hero-status"><i></i> AVAILABLE FOR IDEAS & COLLABORATION</div>
+        <h1>BUILDING<br /><span class="outline">AI</span> FOR<br /><span class="accent">REAL WORK.</span></h1>
+      </div>
+      <div class="hero-side">
+        <p>你好，我是迟迟。<br />一名 AI 应用开发工程师，专注把 Agent、数据与自动化能力转化为真正可用的企业工作流。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/projects/">查看项目 <span>↗</span></a>
+          <a class="button secondary" href="/about/">关于我</a>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <span class="scroll-line">SCROLL TO EXPLORE</span>
+        <span>SHANGHAI · CHINA / UTC+8</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro-section">
+    <div class="shell intro-grid">
+      <p class="section-label">WHAT I DO</p>
+      <div class="intro-copy">
+        <h2>在模型能力与业务系统之间，<span>搭一座可靠的桥。</span></h2>
+        <div class="capability-strip">
+          <div class="capability"><span>01</span><strong>AI Engineering</strong><p>LLM 应用与生产工程</p></div>
+          <div class="capability"><span>02</span><strong>Agent Systems</strong><p>工具、记忆与工作流</p></div>
+          <div class="capability"><span>03</span><strong>Data Products</strong><p>投放分析与 BI 应用</p></div>
+          <div class="capability"><span>04</span><strong>Automation</strong><p>RPA 与任务编排</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects-section">
+    <div class="shell">
+      <p class="section-label">SELECTED WORK</p>
+      <div class="section-heading"><h2>解决复杂问题，<br />交付可用系统。</h2><a href="/projects/">浏览全部项目 ↗</a></div>
+      <div class="project-list">
+        {projects.map((project, index) => <ProjectCard project={project} featured={index === 0} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="writing-section">
+    <div class="shell">
+      <p class="section-label">RECENT WRITING</p>
+      <div class="section-heading"><h2>记录工程实践<br />与思考过程。</h2><a href="/writing/">查看所有文章 ↗</a></div>
+      <div class="post-list">
+        {posts.map((post) => (
+          <a class="post-row" href={`/writing/${post.id}/`}>
+            <time datetime={post.data.publishedAt.toISOString()}>{date(post.data.publishedAt)}</time>
+            <div><h3>{post.data.title}</h3><p>{post.data.description}</p></div>
+            <div class="tag-row">{post.data.tags.slice(0, 2).map((tag) => <span>{tag}</span>)}</div>
+            <span>↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

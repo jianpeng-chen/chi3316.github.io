@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { projects, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+interface Props { project: Project }
+const { project } = Astro.props;
+---
+
+<BaseLayout title={project.title} description={project.summary}>
+  <section class:list={['project-detail-hero', `accent-${project.accent}`]}>
+    <div class="shell">
+      <div class="project-detail-meta"><span>CASE STUDY / {project.index}</span><span>{project.status}</span><span>{project.year}</span></div>
+      <p class="eyebrow">{project.eyebrow}</p>
+      <h1>{project.title}</h1>
+      <p class="summary">{project.summary}</p>
+      <div class="tag-row">{project.stack.map((tag) => <span>{tag}</span>)}</div>
+    </div>
+  </section>
+  <section class:list={['project-detail-body', `accent-${project.accent}`]}>
+    <div class="shell">
+      <div class="case-section">
+        <h2>问题背景</h2>
+        <div><p>{project.challenge}</p></div>
+      </div>
+      <div class="case-section">
+        <h2>我的方法</h2>
+        <div><ul class="case-list">{project.approach.map((item) => <li>{item}</li>)}</ul></div>
+      </div>
+      <div class="case-section">
+        <h2>经验沉淀</h2>
+        <div><ul class="case-list">{project.impact.map((item) => <li>{item}</li>)}</ul></div>
+      </div>
+      <div class="case-section">
+        <h2>继续交流</h2>
+        <div><p>对类似的 AI 应用、数据产品或自动化工程问题感兴趣？欢迎通过 <a href="https://github.com/chi3316" target="_blank" rel="noreferrer" style="color:var(--card-accent);border-bottom:1px solid currentColor">GitHub</a> 联系我。</p></div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

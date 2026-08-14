@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/projects';
+---
+
+<BaseLayout title="项目" description="迟迟参与的 AI 应用、广告投放、数据平台与开源工程项目。">
+  <section class="page-hero">
+    <div class="shell page-hero-grid">
+      <div><p class="section-label">PROJECTS / 2024—NOW</p><h1>Selected<br /><span>Work.</span></h1></div>
+      <p class="lede">从 AIGC 创意生产到企业数据助手，再到开源可靠性工程：这里记录我如何理解问题、设计系统并推动能力落地。</p>
+    </div>
+  </section>
+  <section class="page-content">
+    <div class="shell projects-index">{projects.map((project) => <ProjectCard project={project} />)}</div>
+  </section>
+</BaseLayout>
