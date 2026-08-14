@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+const date = (value: Date) => new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(value).replaceAll('/', '.');
+---
+
+<BaseLayout title="文章" description="迟迟关于 AI 工程、Agent、数据平台、后端与开源实践的文章。">
+  <section class="page-hero">
+    <div class="shell page-hero-grid">
+      <div><p class="section-label">WRITING / NOTES</p><h1>Field<br /><span>Notes.</span></h1></div>
+      <p class="lede">记录真实项目中的判断、失败和解决方案。内容从后端与开源工程出发，逐步延伸到 AI 应用、Agent 与数据产品。</p>
+    </div>
+  </section>
+  <section class="page-content">
+    <div class="shell">
+      <div class="search-panel" id="search">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+          <input id="search-input" type="search" placeholder="搜索文章、技术或项目关键词…" autocomplete="off" />
+        </div>
+        <p class="search-hint">STATIC FULL-TEXT SEARCH · PRESS / TO FOCUS</p>
+        <div class="search-results" id="search-results" aria-live="polite"></div>
+      </div>
+      <div class="writing-toolbar">
+        <p><span id="visible-count">{posts.length}</span> 篇公开文章</p>
+        <div class="filter-list">
+          <button class="filter-button active" data-filter="all">全部</button>
+          {tags.map((tag) => <button class="filter-button" data-filter={tag}>{tag}</button>)}
+        </div>
+      </div>
+      <div class="post-list" id="post-list">
+        {posts.map((post) => (
+          <a class="post-row" data-tags={post.data.tags.join('|')} href={`/writing/${post.id}/`}>
+            <time datetime={post.data.publishedAt.toISOString()}>{date(post.data.publishedAt)}</time>
+            <div><h3>{post.data.title}</h3><p>{post.data.description}</p></div>
+            <div class="tag-row">{post.data.tags.slice(0, 2).map((tag) => <span>{tag}</span>)}</div>
+            <span>↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-button');
+  const rows = document.querySelectorAll<HTMLElement>('.post-row[data-tags]');
+  const count = document.querySelector<HTMLElement>('#visible-count');
+  buttons.forEach((button) => button.addEventListener('click', () => {
+    buttons.forEach((item) => item.classList.remove('active'));
+    button.classList.add('active');
+    const filter = button.dataset.filter;
+    let visible = 0;
+    rows.forEach((row) => {
+      const show = filter === 'all' || row.dataset.tags?.split('|').includes(filter || '');
+      row.hidden = !show;
+      if (show) visible += 1;
+    });
+    if (count) count.textContent = String(visible);
+  }));
+
+  const input = document.querySelector<HTMLInputElement>('#search-input');
+  const results = document.querySelector<HTMLElement>('#search-results');
+  let pagefind: any;
+  const runFallbackSearch = (query: string) => {
+    if (!results) return;
+    const matches = [...rows].filter((row) => row.textContent?.toLocaleLowerCase().includes(query.toLocaleLowerCase())).slice(0, 6);
+    results.replaceChildren(...matches.map((row) => {
+      const link = document.createElement('a');
+      const title = document.createElement('strong');
+      const description = document.createElement('p');
+      link.className = 'search-result';
+      link.href = row.getAttribute('href') || '/writing/';
+      title.textContent = row.querySelector('h3')?.textContent || '';
+      description.textContent = row.querySelector('p')?.textContent || '';
+      link.append(title, description);
+      return link;
+    }));
+    if (!matches.length) results.innerHTML = '<p class="search-hint">没有找到相关内容。</p>';
+  };
+  const runSearch = async () => {
+    const query = input?.value.trim();
+    if (!results) return;
+    if (!query) { results.innerHTML = ''; return; }
+    try {
+      if (!pagefind) {
+        const pagefindPath = '/pagefind/pagefind.js';
+        pagefind = await import(/* @vite-ignore */ pagefindPath);
+        await pagefind.init();
+      }
+      const search = await pagefind.search(query);
+      const data = await Promise.all(search.results.slice(0, 6).map((item: any) => item.data()));
+      results.innerHTML = data.length ? data.map((item: any) => `<a class="search-result" href="${item.url}"><strong>${item.meta.title}</strong><p>${item.excerpt}</p></a>`).join('') : '<p class="search-hint">没有找到相关内容。</p>';
+    } catch {
+      runFallbackSearch(query);
+    }
+  };
+  input?.addEventListener('input', runSearch);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '/' && document.activeElement !== input) { event.preventDefault(); input?.focus(); }
+  });
+</script>

@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft && Boolean(data.legacyPath));
+  return [
+    ...posts.map((post) => ({
+      params: { legacy: post.data.legacyPath!.replace(/^\//, '').replace(/\/$/, '') },
+      props: { target: `/writing/${post.id}/`, label: post.data.title },
+    })),
+    { params: { legacy: 'categories' }, props: { target: '/writing/', label: '文章' } },
+    { params: { legacy: 'tags' }, props: { target: '/writing/', label: '文章' } },
+    { params: { legacy: 'archives' }, props: { target: '/writing/', label: '文章' } },
+  ];
+}
+
+interface Props { target: string; label: string }
+const { target, label } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(target, Astro.site)} />
+    <title>页面已迁移 — 迟迟</title>
+  </head>
+  <body><p>页面已迁移至 <a href={target}>{label}</a>。</p><script is:inline define:vars={{ target }}>location.replace(target);</script></body>
+</html>

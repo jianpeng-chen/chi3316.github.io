@@ -1,0 +1,25 @@
+---
+import type { Project } from '../data/projects';
+interface Props { project: Project; featured?: boolean }
+const { project, featured = false } = Astro.props;
+---
+
+<a class:list={['project-card', `accent-${project.accent}`, { featured }]} href={`/projects/${project.slug}/`}>
+  <div class="project-topline">
+    <span>{project.index}</span>
+    <span>{project.status}</span>
+    <span>{project.year}</span>
+  </div>
+  <div class="project-visual" aria-hidden="true">
+    <div class="visual-grid"></div>
+    <div class="visual-orbit"><i></i><i></i><i></i></div>
+    <span class="visual-code">{project.index === '01' ? 'GENERATE → REVIEW → PRODUCE' : project.index === '02' ? 'QUERY → VERIFY → EXPLAIN' : 'INJECT → OBSERVE → RECOVER'}</span>
+  </div>
+  <div class="project-copy">
+    <p class="eyebrow">{project.eyebrow}</p>
+    <h3>{project.title}</h3>
+    <p>{project.summary}</p>
+    <div class="tag-row">{project.stack.slice(0, 4).map((tag) => <span>{tag}</span>)}</div>
+  </div>
+  <span class="project-arrow" aria-hidden="true">↗</span>
+</a>

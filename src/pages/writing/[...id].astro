@@ -1,0 +1,32 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const date = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.data.publishedAt);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} type="article" publishedAt={post.data.publishedAt}>
+  <header class="article-header">
+    <div class="shell article-header-inner">
+      <p class="section-label">FIELD NOTE / {post.data.tags[0] || 'ENGINEERING'}</p>
+      <h1>{post.data.title}</h1>
+      <p class="article-desc">{post.data.description}</p>
+      <div class="article-meta"><time datetime={post.data.publishedAt.toISOString()}>{date}</time><span>·</span><span>{post.data.tags.join(' / ') || '工程笔记'}</span></div>
+    </div>
+  </header>
+  <div class="shell article-layout">
+    <article class="prose" data-pagefind-body><Content /></article>
+    <aside class="article-aside">
+      <p>ON THIS PAGE</p>
+      {headings.filter((heading) => heading.depth <= 3).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}
+    </aside>
+  </div>
+</BaseLayout>

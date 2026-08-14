@@ -1,0 +1,74 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedAt?: Date;
+}
+
+const {
+  title = '迟迟 — AI Application Engineer',
+  description = '迟迟的个人网站：关注企业 AI 应用、Agent 工程、投放数据、自动化与开源实践。',
+  image = '/og-default.svg',
+  type = 'website',
+  publishedAt,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title.includes('迟迟') ? title : `${title} — 迟迟`;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': type === 'article' ? 'TechArticle' : 'Person',
+  name: type === 'article' ? title : '迟迟',
+  headline: type === 'article' ? title : undefined,
+  description,
+  url: canonical.href,
+  datePublished: publishedAt?.toISOString(),
+  sameAs: type === 'website' ? ['https://github.com/chi3316'] : undefined,
+  jobTitle: type === 'website' ? 'AI Application Engineer' : undefined,
+};
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0c0f" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="迟迟的文章" href="/rss.xml" />
+    <title>{fullTitle}</title>
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem('theme');
+        const preferred = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.theme = saved || preferred;
+      } catch {}
+    </script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#content">跳到正文</a>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <Header />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
