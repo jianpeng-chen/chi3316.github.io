@@ -1,55 +1,83 @@
 ---
-const pathname = Astro.url.pathname;
+import PixelIcon from './PixelIcon.astro';
+import { withBase, githubUrl } from '../lib/paths';
+const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
 const nav = [
-  { href: '/', label: '首页', match: pathname === '/' },
-  { href: '/projects/', label: '项目', match: pathname.startsWith('/projects') },
-  { href: '/writing/', label: '文章', match: pathname.startsWith('/writing') },
-  { href: '/about/', label: '关于', match: pathname.startsWith('/about') },
+  { href: '/', label: '起点', match: pathname === '/' },
+  { href: '/projects/', label: '项目图鉴', match: pathname.startsWith('/projects') },
+  { href: '/writing/', label: '探索笔记', match: pathname.startsWith('/writing') },
+  { href: '/about/', label: '关于玩家', match: pathname.startsWith('/about') },
 ];
 ---
 
 <header class="site-header">
   <div class="shell header-inner">
-    <a class="brand" href="/" aria-label="迟迟的个人主页">
-      <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
-      <span class="brand-copy"><strong>迟迟</strong><small>AI APPLICATION ENGINEER</small></span>
-    </a>
-
+    <a class="brand" href={withBase('/')} aria-label="迟迟的个人主页"
+      ><PixelIcon /><span>CHICHI<span class="brand-period">.</span></span><small>迟迟的数字世界</small></a
+    >
     <nav class="desktop-nav" aria-label="主导航">
-      {nav.map((item) => (
-        <a href={item.href} aria-current={item.match ? 'page' : undefined}>
-          {item.label}
-        </a>
-      ))}
+      {
+        nav.map((item) => (
+          <a href={withBase(item.href)} aria-current={item.match ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
     </nav>
-
     <div class="header-actions">
-      <a class="icon-button search-trigger" href="/writing/#search" aria-label="搜索文章">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
-      </a>
-      <button class="icon-button theme-toggle" type="button" aria-label="切换明暗主题">
-        <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.41M17.66 6.34l1.41-1.41"></path></svg>
-        <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5a8.5 8.5 0 1 0 12 12Z"></path></svg>
-      </button>
+      <button class="icon-button theme-toggle" type="button" aria-label="切换昼夜主题" aria-pressed="false"
+        ><svg viewBox="0 0 24 24" aria-hidden="true"
+          ><path d="M9 3h6v3h3v3h3v6h-3v3h-3v3H9v-3H6v-3H3V9h3V6h3z"></path><path
+            d="M12 6v12h3v-3h3V9h-3V6z"
+            fill="currentColor"></path></svg
+        ></button
+      >
+      <a class="header-github" href={githubUrl} target="_blank" rel="noreferrer"
+        >Let’s connect <span>↗</span></a
+      >
       <details class="mobile-menu">
-        <summary class="icon-button" aria-label="打开导航"><span></span><span></span></summary>
-        <nav aria-label="移动端导航">
-          {nav.map((item, index) => (
-            <a href={item.href} aria-current={item.match ? 'page' : undefined}>
-              <span>0{index + 1}</span>{item.label}
-            </a>
-          ))}
+        <summary class="icon-button" aria-label="打开导航"><span></span><span></span></summary><nav
+          aria-label="移动端导航"
+        >
+          {
+            nav.map((item, index) => (
+              <a href={withBase(item.href)} aria-current={item.match ? 'page' : undefined}>
+                <span>0{index + 1}</span>
+                {item.label}
+                <span>↗</span>
+              </a>
+            ))
+          }
         </nav>
       </details>
     </div>
   </div>
 </header>
-
 <script>
   const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const updateThemeButton = () => {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    toggle?.setAttribute('aria-pressed', String(dark));
+    toggle?.setAttribute('aria-label', dark ? '切换至白昼世界' : '切换至夜间世界');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#232b24' : '#f5f1e6');
+  };
+  updateThemeButton();
   toggle?.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
-    localStorage.setItem('theme', next);
+    try {
+      localStorage.setItem('chichi-world-theme', next);
+    } catch {}
+    updateThemeButton();
+  });
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu?.open) {
+      menu.open = false;
+      menu.querySelector('summary')?.focus();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
   });
 </script>

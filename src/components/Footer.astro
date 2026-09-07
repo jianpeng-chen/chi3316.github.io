@@ -1,21 +1,32 @@
+---
+import PixelIcon from './PixelIcon.astro';
+import { withBase, githubUrl } from '../lib/paths';
+---
+
 <footer class="site-footer">
-  <div class="shell footer-grid">
-    <div>
-      <p class="footer-kicker">LET'S BUILD SOMETHING USEFUL</p>
-      <h2>让 AI 真正进入<br />业务工作流。</h2>
+  <div class="contact-world">
+    <img
+      src={withBase('/worlds/sunset.svg')}
+      width="1000"
+      height="350"
+      loading="lazy"
+      alt="橙色落日下的像素山谷与森林"
+    />
+    <div class="contact-copy">
+      <p class="pixel-label">THE NEXT ADVENTURE STARTS WITH A HELLO.</p><h2>
+        好想法，<br />值得一起实现<span>。</span>
+      </h2><a class="button primary" href={githubUrl} target="_blank" rel="noreferrer"
+        >在 GitHub 找到我 <span>↗</span></a
+      ><p class="contact-note">聊 AI、聊开源，或者聊一个还没开始的想法。</p>
     </div>
-    <div class="footer-contact">
-      <p>关注企业 AI 应用、Agent 工程、数据平台与自动化。</p>
-      <div class="footer-links">
-        <a href="https://github.com/chi3316" target="_blank" rel="noreferrer">GitHub ↗</a>
-        <a href="/writing/">Articles ↗</a>
-        <a href="/rss.xml">RSS ↗</a>
-      </div>
-    </div>
+    <span class="contact-coordinate pixel-label">WORLD 04 / THE NEXT CHAPTER</span>
   </div>
   <div class="shell footer-bottom">
-    <span>© {new Date().getFullYear()} CHICHI</span>
-    <span>DESIGNED & BUILT WITH ASTRO</span>
-    <a href="#top">BACK TO TOP ↑</a>
+    <a class="brand" href={withBase('/')}><PixelIcon /><span>CHICHI.</span></a><span class="footer-motto"
+      >保持好奇，持续创造。</span
+    ><div class="footer-links">
+      <a href={withBase('/writing/')}>文章</a><a href={withBase('/rss.xml')}>RSS ↗</a><span
+        >© {new Date().getFullYear()} CHICHI</span>
+    </div><a class="back-top" href="#top" aria-label="回到顶部">↑</a>
   </div>
 </footer>

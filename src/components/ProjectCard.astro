@@ -1,25 +1,119 @@
 ---
 import type { Project } from '../data/projects';
-interface Props { project: Project; featured?: boolean }
-const { project, featured = false } = Astro.props;
+import PixelIcon from './PixelIcon.astro';
+import { withBase } from '../lib/paths';
+interface Props {
+  project: Project;
+  featured?: boolean;
+}
+const { project } = Astro.props;
 ---
 
-<a class:list={['project-card', `accent-${project.accent}`, { featured }]} href={`/projects/${project.slug}/`}>
-  <div class="project-topline">
-    <span>{project.index}</span>
-    <span>{project.status}</span>
-    <span>{project.year}</span>
-  </div>
+<a class:list={['project-card', `quest-${project.index}`]} href={withBase(`/projects/${project.slug}/`)}>
   <div class="project-visual" aria-hidden="true">
-    <div class="visual-grid"></div>
-    <div class="visual-orbit"><i></i><i></i><i></i></div>
-    <span class="visual-code">{project.index === '01' ? 'GENERATE → REVIEW → PRODUCE' : project.index === '02' ? 'QUERY → VERIFY → EXPLAIN' : 'INJECT → OBSERVE → RECOVER'}</span>
+    <div class="project-topline pixel-label">
+      <span>QUEST {project.index}</span><span>{project.year}</span>
+    </div>
+    {
+      project.index === '01' && (
+        <div class="creative-art">
+          <>
+            <div class="creative-window">
+              <>
+                <div class="window-toolbar">
+                  <>
+                    <span>CREATIVE_STUDIO</span>
+                    <span>− □ ×</span>
+                  </>
+                </div>
+                <img src={withBase('/worlds/valley.svg')} width="960" height="380" loading="lazy" alt="" />
+                <div class="edit-timeline">
+                  <>
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                  </>
+                </div>
+              </>
+            </div>
+            <span class="art-badge pixel-label">
+              IDEA → REALITY <span>✦</span>
+            </span>
+            <span class="project-spark">✦</span>
+          </>
+        </div>
+      )
+    }
+    {
+      project.index === '02' && (
+        <div class="data-art">
+          <>
+            <img
+              class="data-world"
+              src={withBase('/worlds/night.svg')}
+              width="400"
+              height="260"
+              loading="lazy"
+              alt=""
+            />
+            <div class="data-terminal">
+              <>
+                <span class="pixel-label">DATA_COMPANION</span>
+                <p>
+                  <span>›</span> ASK. EXPLORE.
+                  <br />
+                  &nbsp; UNDERSTAND.
+                </p>
+                <div class="data-bars">
+                  <>
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                  </>
+                </div>
+                <div class="terminal-result pixel-label">
+                  <span>●</span> EVIDENCE FOUND.
+                </div>
+              </>
+            </div>
+            <PixelIcon kind="crystal" class="data-crystal" />
+          </>
+        </div>
+      )
+    }
+    {
+      project.index === '03' && (
+        <div class="reliability-art">
+          <>
+            <PixelIcon kind="chest" />
+            <span class="reliability-orbit orbit-one" />
+            <span class="reliability-orbit orbit-two" />
+            <span class="project-spark">✦</span>
+            <div class="art-badge pixel-label">INJECT. OBSERVE. RECOVER.</div>
+          </>
+        </div>
+      )
+    }
+  </div><div class="project-copy">
+    <p class="eyebrow">{project.eyebrow}</p><h3>{project.title}</h3><p>{project.summary}</p><div
+      class="tag-row"
+    >
+      {project.stack.slice(0, 3).map((tag) => <span>{tag}</span>)}
+    </div><div class="project-card-footer">
+      <span
+        >{
+          project.status === 'CURRENT FOCUS'
+            ? '正在探索'
+            : project.status === 'OSPP 2024'
+              ? '开源之夏 · 2024'
+              : '项目实践'
+        }</span
+      ><span>查看冒险记录 ↗</span>
+    </div>
   </div>
-  <div class="project-copy">
-    <p class="eyebrow">{project.eyebrow}</p>
-    <h3>{project.title}</h3>
-    <p>{project.summary}</p>
-    <div class="tag-row">{project.stack.slice(0, 4).map((tag) => <span>{tag}</span>)}</div>
-  </div>
-  <span class="project-arrow" aria-hidden="true">↗</span>
 </a>

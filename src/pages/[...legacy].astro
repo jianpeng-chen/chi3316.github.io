@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../lib/paths';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -14,9 +15,14 @@ export async function getStaticPaths() {
   ];
 }
 
-interface Props { target: string; label: string }
-const { target, label } = Astro.props;
+interface Props {
+  target: string;
+  label: string;
+}
+const { target: destination, label } = Astro.props;
+const target = withBase(destination);
 ---
+
 <!doctype html>
 <html lang="zh-CN">
   <head>
@@ -27,5 +33,9 @@ const { target, label } = Astro.props;
     <link rel="canonical" href={new URL(target, Astro.site)} />
     <title>页面已迁移 — 迟迟</title>
   </head>
-  <body><p>页面已迁移至 <a href={target}>{label}</a>。</p><script is:inline define:vars={{ target }}>location.replace(target);</script></body>
+  <body
+    ><p>页面已迁移至 <a href={target}>{label}</a>。</p><script is:inline define:vars={{ target }}>
+      location.replace(target);
+    </script></body
+  >
 </html>

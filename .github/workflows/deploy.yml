@@ -2,7 +2,9 @@ name: Deploy Astro site to GitHub Pages
 
 on:
   push:
-    branches: [master, feat/personal-site-redesign]
+    branches: [master]
+  pull_request:
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -27,14 +29,19 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Check Astro and TypeScript
+        run: npm run check
       - name: Build site
         run: npm run build
+      - name: Verify generated site
+        run: npm run verify
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

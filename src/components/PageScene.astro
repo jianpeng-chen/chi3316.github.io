@@ -1,0 +1,13 @@
+---
+import { withBase } from '../lib/paths';
+interface Props {
+  world?: 'valley' | 'forest' | 'night';
+  label?: string;
+}
+const { world = 'valley', label = 'THE ADVENTURE CONTINUES.' } = Astro.props;
+---
+
+<div class="page-map-strip" aria-hidden="true">
+  <img src={withBase(`/worlds/${world}.svg`)} width="960" height="380" alt="" /><span class="pixel-label"
+    >{label}</span>
+</div>

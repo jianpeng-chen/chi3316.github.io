@@ -1,6 +1,14 @@
 ---
+import { withBase } from '../lib/paths';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
+
 <BaseLayout title="页面未找到">
-  <section class="not-found shell"><div><strong>404</strong><h1>这个页面不在工作流里。</h1><p>链接可能已经移动，或者从未存在。</p><a class="button primary" href="/">返回首页</a></div></section>
+  <section class="not-found shell">
+    <div>
+      <strong>404</strong><h1>你发现了一片未知地图。</h1><p>链接可能已经移动，或者从未存在。</p><a
+        class="button primary"
+        href={withBase('/')}>回到冒险起点</a>
+    </div>
+  </section>
 </BaseLayout>

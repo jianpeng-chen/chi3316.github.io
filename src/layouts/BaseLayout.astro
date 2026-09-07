@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import { withBase, githubUrl } from '../lib/paths';
 
 interface Props {
   title?: string;
@@ -14,7 +15,7 @@ interface Props {
 const {
   title = '迟迟 — AI Application Engineer',
   description = '迟迟的个人网站：关注企业 AI 应用、Agent 工程、投放数据、自动化与开源实践。',
-  image = '/og-default.svg',
+  image = '/og-default.png',
   type = 'website',
   publishedAt,
 } = Astro.props;
@@ -28,43 +29,40 @@ const structuredData = {
   description,
   url: canonical.href,
   datePublished: publishedAt?.toISOString(),
-  sameAs: type === 'website' ? ['https://github.com/chi3316'] : undefined,
+  sameAs: type === 'website' ? [githubUrl] : undefined,
   jobTitle: type === 'website' ? 'AI Application Engineer' : undefined,
 };
 ---
 
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a0c0f" />
+    <meta name="theme-color" content="#f5f1e6" />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image" content={new URL(withBase(image), Astro.site)} />
     <meta property="og:locale" content="zh_CN" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title="迟迟的文章" href="/rss.xml" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="迟迟的文章" href={withBase('/rss.xml')} />
     <title>{fullTitle}</title>
     <script is:inline>
       try {
-        const saved = localStorage.getItem('theme');
-        const preferred = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        document.documentElement.dataset.theme = saved || preferred;
+        const saved = localStorage.getItem('chichi-world-theme');
+        document.documentElement.dataset.theme = saved === 'dark' ? 'dark' : 'light';
       } catch {}
     </script>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body id="top">
     <a class="skip-link" href="#content">跳到正文</a>
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
     <Header />
     <main id="content">
       <slot />

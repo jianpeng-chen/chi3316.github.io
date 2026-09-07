@@ -1,36 +1,86 @@
 ---
+import PixelIcon from '../components/PixelIcon.astro';
+import PageScene from '../components/PageScene.astro';
+import { withBase } from '../lib/paths';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="关于" description="关于迟迟：AI 应用开发工程师，关注企业 AI、Agent、投放数据、自动化与开源工程。">
+<BaseLayout
+  title="关于"
+  description="关于迟迟：AI 应用开发工程师，关注企业 AI、Agent、投放数据、自动化与开源工程。"
+>
   <section class="page-hero">
     <div class="shell page-hero-grid">
-      <div><p class="section-label">ABOUT / PROFILE</p><h1>Human<br /><span>Behind AI.</span></h1></div>
-      <p class="lede">我相信好的 AI 应用不是一个会说话的界面，而是一套理解业务、连接数据、可以验证并持续演进的系统。</p>
+      <div><p class="section-label">ABOUT / PROFILE</p><h1>MEET THE<br /><span>PLAYER.</span></h1></div>
+      <p class="lede">
+        我相信好的 AI 应用不是一个会说话的界面，而是一套理解业务、连接数据、可以验证并持续演进的系统。
+      </p>
     </div>
   </section>
+  <PageScene world="forest" label="PLAYER 01 / ALWAYS CURIOUS" />
   <section class="page-content">
     <div class="shell about-grid">
-      <div class="portrait-panel" aria-label="迟迟的抽象数字肖像">
-        <div class="portrait-ui"><div><span>SUBJECT / CHICHI</span><span>2026</span></div><div class="portrait-center"></div><div><span>AI × DATA</span><span>SHANGHAI</span></div></div>
+      <div class="portrait-panel" aria-label="迟迟的像素玩家档案">
+        <img
+          class="portrait-landscape"
+          src={withBase('/worlds/valley.svg')}
+          width="960"
+          height="380"
+          alt="像素玩家站在夕阳下的山谷中"
+        />
+        <div class="portrait-ui">
+          <div><span>PLAYER 01 / CHICHI</span><span>2026</span></div><PixelIcon
+            kind="player"
+            class="portrait-player"
+          /><span class="portrait-name">STILL<br />CURIOUS.</span><div>
+            <span>AI × DATA × BUILD</span><span>SHANGHAI</span>
+          </div>
+        </div>
       </div>
       <div class="about-copy">
         <h2>把新技术变成<br />稳定、清晰、可用的产品。</h2>
-        <p>目前我在数据团队从事企业 AI 应用落地，工作方向是“投放系统 + AI”。这里的投放系统并不是重新制造一个广告平台，而是围绕数据平台、BI、广告数据跟踪、归因和分析，构建更智能的内部工具与助手。</p>
-        <p>在此之前，我参与过游戏广告 AIGC 创意生产工具链，涉及脚本生成、素材生产、混剪、RPA、数据采集与分析；也曾在 Apache RocketMQ 开源社区完成自动化混沌测试相关项目。</p>
-        <p>这些经历让我持续关注同一件事：如何把模型、Agent、数据和传统软件工程组织成能够真正交付价值的系统。</p>
+        <p>
+          目前我在数据团队从事企业 AI 应用落地，工作方向是“投放系统 +
+          AI”。这里的投放系统并不是重新制造一个广告平台，而是围绕数据平台、BI、广告数据跟踪、归因和分析，构建更智能的内部工具与助手。
+        </p>
+        <p>
+          在此之前，我参与过游戏广告 AIGC
+          创意生产工具链，涉及脚本生成、素材生产、混剪、RPA、数据采集与分析；也曾在 Apache RocketMQ
+          开源社区完成自动化混沌测试相关项目。
+        </p>
+        <p>
+          这些经历让我持续关注同一件事：如何把模型、Agent、数据和传统软件工程组织成能够真正交付价值的系统。
+        </p>
 
         <div class="timeline">
-          <div class="timeline-item"><time>2026 — NOW</time><div><h3>AI 应用开发工程师 · 数据方向</h3><p>企业 AI 应用、Agent、投放数据平台、BI 与智能分析。</p></div></div>
-          <div class="timeline-item"><time>EARLY 2026</time><div><h3>AIGC 研发实习 · 游戏数据中心</h3><p>参与广告创意生产工具链、混剪能力和自动化工具建设。</p></div></div>
-          <div class="timeline-item"><time>2024</time><div><h3>OSPP · Apache RocketMQ</h3><p>设计并实现自动化混沌测试基础设施，参与开源社区协作。</p></div></div>
+          <div class="timeline-item">
+            <time>2026 — NOW</time><div>
+              <h3>AI 应用开发工程师 · 数据方向</h3><p>企业 AI 应用、Agent、投放数据平台、BI 与智能分析。</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <time>EARLY 2026</time><div>
+              <h3>AIGC 研发实习 · 游戏数据中心</h3><p>参与广告创意生产工具链、混剪能力和自动化工具建设。</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <time>2024</time><div>
+              <h3>OSPP · Apache RocketMQ</h3><p>设计并实现自动化混沌测试基础设施，参与开源社区协作。</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="shell principles">
-      <div class="principle"><span>01 / SYSTEM</span><h3>从系统看问题</h3><p>关注输入、约束、反馈和失败路径，而不是孤立功能。</p></div>
-      <div class="principle"><span>02 / EVIDENCE</span><h3>让结果可验证</h3><p>数据、引用和执行链路比“看起来聪明”更重要。</p></div>
-      <div class="principle"><span>03 / DELIVERY</span><h3>以交付为终点</h3><p>模型效果只是起点，工程可用性才决定真实价值。</p></div>
+      <div class="principle">
+        <span>01 / SYSTEM</span><h3>从系统看问题</h3><p>关注输入、约束、反馈和失败路径，而不是孤立功能。</p>
+      </div>
+      <div class="principle">
+        <span>02 / EVIDENCE</span><h3>让结果可验证</h3><p>数据、引用和执行链路比“看起来聪明”更重要。</p>
+      </div>
+      <div class="principle">
+        <span>03 / DELIVERY</span><h3>以交付为终点</h3><p>模型效果只是起点，工程可用性才决定真实价值。</p>
+      </div>
     </div>
   </section>
 </BaseLayout>
