@@ -1,0 +1,81 @@
+---
+interface Props {
+  kind?: 'spark' | 'sword' | 'crystal' | 'chest' | 'player';
+  class?: string;
+}
+const { kind = 'spark', class: className } = Astro.props;
+---
+
+<svg
+  class:list={['pixel-icon', className]}
+  viewBox="0 0 64 64"
+  fill="none"
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+>
+  {
+    kind === 'spark' && (
+      <>
+        <>
+          <path d="M28 4h8v16h8v8h16v8H44v8h-8v16h-8V44h-8v-8H4v-8h16v-8h8z" fill="currentColor" />
+          <path d="M28 28h8v8h-8z" fill="var(--bg)" />
+        </>
+      </>
+    )
+  }
+  {
+    kind === 'sword' && (
+      <>
+        <>
+          <path d="M44 4h16v16L28 52 12 36z" fill="#f1e5bc" />
+          <path d="M52 4h8v16L28 52l-8-8z" fill="#abae82" />
+          <path d="M8 28h8v8h8v8h8v8h-8v-8h-8v-8H8z" fill="#ee8e46" />
+          <path d="M8 48h8v-8h8v8h-8v8H8z" fill="#a86a42" />
+          <path d="M4 52h8v8H4z" fill="#e3a759" />
+        </>
+      </>
+    )
+  }
+  {
+    kind === 'crystal' && (
+      <>
+        <>
+          <path d="M24 4h16v8h8v12h8v16h-8v12H40v8H24v-8h-8V40H8V24h8V12h8z" fill="#788a62" />
+          <path d="M24 12h16v12h8v16H32v12h-8V40h-8V24h8z" fill="#c0cca1" />
+          <path d="M24 12h8v20h-8z" fill="#f0e9c5" />
+          <path d="M32 32h16v8h-8v12h-8z" fill="#647957" />
+        </>
+      </>
+    )
+  }
+  {
+    kind === 'chest' && (
+      <>
+        <>
+          <path d="M8 16h48v8h4v32H4V24h4z" fill="#b17646" />
+          <path d="M12 8h40v8H12z" fill="#c39655" />
+          <path d="M4 28h56v8H4z" fill="#563e2b" />
+          <path d="M8 16h8v40H8zm40 0h8v40h-8z" fill="#dfb767" />
+          <path d="M24 24h16v20H24z" fill="#edc575" />
+          <path d="M28 28h8v8h-8z" fill="#5a492e" />
+          <path d="M16 48h8v4h-8z" fill="#d79d56" />
+        </>
+      </>
+    )
+  }
+  {
+    kind === 'player' && (
+      <>
+        <>
+          <path d="M24 8h20v8H20v-4h4z" fill="#383d2e" />
+          <path d="M20 16h24v16H20z" fill="#e7ba7a" />
+          <path d="M36 20h4v4h-4z" fill="#2e3528" />
+          <path d="M16 32h32v20H16z" fill="#f16635" />
+          <path d="M12 36h4v12h-4zm36 0h4v12h-4z" fill="#e7ba7a" />
+          <path d="M20 52h8v8H16v-4h4zm16 0h8v4h4v4H36z" fill="#303d2d" />
+          <path d="M20 32h8v16h-8z" fill="#ff9857" />
+        </>
+      </>
+    )
+  }
+</svg>

@@ -1,9 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0a0c0f"/><stop offset="1" stop-color="#151a20"/></linearGradient><pattern id="p" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0v48" fill="none" stroke="#ffffff" stroke-opacity=".05"/></pattern></defs>
-  <rect width="1200" height="630" fill="url(#g)"/><rect width="1200" height="630" fill="url(#p)"/>
-  <circle cx="1020" cy="120" r="180" fill="#63e6ff" fill-opacity=".12"/><circle cx="1060" cy="520" r="230" fill="#b8ff5b" fill-opacity=".1"/>
-  <text x="88" y="126" font-family="monospace" font-size="22" fill="#63e6ff">AI APPLICATION ENGINEER</text>
-  <text x="80" y="330" font-family="system-ui,sans-serif" font-weight="700" font-size="126" fill="#f3f4ef">迟迟</text>
-  <text x="88" y="420" font-family="system-ui,sans-serif" font-size="36" fill="#a6acb5">AI × DATA × REAL WORKFLOWS</text>
-  <path d="M88 510h420" stroke="#b8ff5b" stroke-width="8"/><circle cx="532" cy="510" r="8" fill="#b8ff5b"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" shape-rendering="crispEdges">
+<rect width="1200" height="630" fill="#f5f1e6"/>
+<path d="M57 39h8v15h15v8H65v15h-8V62H42v-8h15z" fill="#f36635"/>
+<text x="94" y="69" font-family="Arial,sans-serif" font-size="33" font-weight="700" fill="#272920">CHICHI.</text>
+<text x="48" y="176" font-family="Arial,sans-serif" font-size="84" font-weight="700" letter-spacing="-5" fill="#272920">STAY CURIOUS.</text>
+<text x="48" y="265" font-family="Arial,sans-serif" font-size="84" font-weight="700" letter-spacing="-5" fill="#272920">BUILD REAL.</text>
+<text x="742" y="208" font-family="monospace" font-size="17" fill="#69705b">AI APPLICATION ENGINEER</text>
+<text x="742" y="240" font-family="monospace" font-size="13" fill="#b8643b">AI / AGENTS / DATA / OPEN SOURCE</text>
+<rect x="22" y="313" width="1156" height="295" fill="#e98d5b"/>
+<path d="M871 335h52v9h21v9h12v15h9v54h-9v15h-12v9h-21v9h-52v-9h-21v-9h-12v-15h-9v-54h9v-15h12v-9h21z" fill="#ffdc96"/>
+<path d="M22 433h32v-18h24v-15h27v-22h24v-17h14v23h22v20h34v23h26v17h40v-16h30v-20h28v-19h20v-28h16v30h20v24h33v21h27v17h37v-15h28v-18h26v13h26v21h45v-14h40v-20h25v-25h16v-20h15v23h20v22h26v26h35v-9h25v-18h18v-24h18v-20h18v24h16v21h25v18h28v-7h22v-24h21v-26h20v-14h14v20h22v19h25v22h19v-12h17v175H22z" fill="#b97151"/>
+<path d="M22 475h65v-16h47v12h63v18h57v-16h35v-14h34v24h84v20h42v-14h65v17h74v-18h39v-21h27v-14h27v19h63v-21h33v-13h27v17h24v20h48v-15h45v-19h35v-19h17v24h40v16h35v-19h44v-15h20v172H22z" fill="#7d7850"/>
+<path d="M22 527h74v-10h83v24h63v-12h60v31h114v-12h42v21h80v39H22zm1156-14h-55v16h-89v15h-72v-12h-43v24h-57v16h-49v36h365z" fill="#344d34"/>
+<path d="M666 477h16v16h22v10h24v14h-32v13h-23v13h24v12h34v17h-18v12h-16v24H569v-15h30v-13h27v-14h-19v-15h-14v-11h32v-12h29v-13h-12v-11h24z" fill="#d9b274"/>
+<g fill="#243e2d"><path d="M77 438h8v18h10v15h10v17h13v17H98v19H66v-19H46v-17h13v-17h10v-15h8zm91 48h6v12h9v15h9v11h12v13h-20v20h-25v-20h-20v-13h12v-11h9v-15h8zm862-42h8v17h9v16h12v19h15v18h-20v33h-37v-33h-20v-18h15v-19h10v-16h8zm67-35h8v21h12v18h12v20h16v23h-20v38h-48v-38h-20v-23h16v-20h12v-18h12z"/></g>
 </svg>
